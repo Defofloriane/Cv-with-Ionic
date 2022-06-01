@@ -1,16 +1,22 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'folder/Inbox',
-    pathMatch: 'full'
+    path: 'folder',
+    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
   },
+  // {
+  //   path: 'folder/:id',
+  //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  // },
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
@@ -25,18 +31,21 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
+    //  canActivate: [AuthGuard]
   },
   {
     path: 'profil-edit',
-    loadChildren: () => import('./profil-edit/profil-edit.module').then( m => m.ProfilEditPageModule)
+    loadChildren: () => import('./profil-edit/profil-edit.module').then( m => m.ProfilEditPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'change-pass',
-    loadChildren: () => import('./change-pass/change-pass.module').then( m => m.ChangePassPageModule)
+    loadChildren: () => import('./change-pass/change-pass.module').then( m => m.ChangePassPageModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'page-not-trouver',
+    path: '***',
     loadChildren: () => import('./page-not-trouver/page-not-trouver.module').then( m => m.PageNotTrouverPageModule)
   }
 ];
